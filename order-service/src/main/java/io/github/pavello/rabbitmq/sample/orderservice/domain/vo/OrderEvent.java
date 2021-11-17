@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class OrderEvent implements DomainEvent, Serializable {
+public class OrderEvent implements DomainEvent {
 
 	public enum State {
 		CREATED, UPDATED, DELETED, PAID
