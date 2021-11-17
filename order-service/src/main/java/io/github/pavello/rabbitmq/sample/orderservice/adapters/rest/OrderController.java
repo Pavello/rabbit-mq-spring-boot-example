@@ -3,6 +3,7 @@ package io.github.pavello.rabbitmq.sample.orderservice.adapters.rest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.github.pavello.rabbitmq.sample.orderservice.application.CreateOrderUseCase;
@@ -16,8 +17,12 @@ class OrderController {
 
 	private final CreateOrderUseCase createOrderUseCase;
 
-	@PostMapping("/orders/default")
-	ResponseEntity<OrderDto> createOrder(@RequestBody CreateOrderCommand createOrderCommand) {
+	@PostMapping("/orders")
+	ResponseEntity<OrderDto> createOrder(
+			@RequestBody CreateOrderCommand createOrderCommand,
+			@RequestParam(required = false) String exchangeName,
+			@RequestParam(required = false) String routingKey
+	) {
 		return ResponseEntity.ok(createOrderUseCase.createOrder(createOrderCommand));
 	}
 }
