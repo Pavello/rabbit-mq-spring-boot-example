@@ -22,12 +22,12 @@ import static io.github.pavello.rabbitmq.sample.orderservice.config.HeaderExchan
 class RabbitMessageHeaderPublisher implements DomainEventPublisher {
 
 	private final RabbitTemplate rabbitTemplate;
+	private final MessageConverter messageConverter;
 
 	@Override
 	public void publish(final DomainEvent event) {
 		MessageProperties messageProperties = new MessageProperties();
 		messageProperties.setHeader("header", "first");
-		MessageConverter messageConverter = new SimpleMessageConverter();
 		Message message = messageConverter.toMessage(event, messageProperties);
 
 		rabbitTemplate.send(HEADER_ORDERS_EXCHANGE,"", message);
