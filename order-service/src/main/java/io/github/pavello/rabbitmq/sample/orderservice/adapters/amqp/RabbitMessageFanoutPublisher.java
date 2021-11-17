@@ -9,17 +9,19 @@ import io.github.pavello.rabbitmq.sample.orderservice.domain.DomainEventPublishe
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import static io.github.pavello.rabbitmq.sample.orderservice.config.FanoutExchangeConfig.FANOUT_ORDERS_EXCHANGE;
+
 @Component
 @RequiredArgsConstructor
-@Profile("default-exchange")
+@Profile("fanout-exchange")
 @Slf4j
-class RabbitMessagePublisher implements DomainEventPublisher {
+class RabbitMessageFanoutPublisher implements DomainEventPublisher {
 
 	private final RabbitTemplate rabbitTemplate;
 
 	@Override
 	public void publish(final DomainEvent event) {
-		rabbitTemplate.convertAndSend(event);
+		rabbitTemplate.convertAndSend(FANOUT_ORDERS_EXCHANGE,"", event);
 		log.info("Message sent to queue : " + event);
 	}
 }
