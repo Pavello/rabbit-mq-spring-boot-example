@@ -20,6 +20,7 @@ public class RabbitMQConsumer {
 
 	@RabbitListener(queues = "${application.rabbitmq.queue}")
 	public void onMessage(OrderEvent event) {
+		if (true) { throw new RuntimeException();}
 		log.info("Consuming Message - " + event);
 		sendEmailUseCase.prepareAndSend(event);
 	}
